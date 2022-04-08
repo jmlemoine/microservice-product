@@ -1,0 +1,49 @@
+<div class="container">
+    <header class="jumbotron">
+        <p>{{ content }}</p>
+    </header>
+</div>
+<div *ngIf="viewMode; else editable">
+    <div *ngIf="currentUsuario.id">
+        <h4>Usuario</h4>
+        <div>
+            <label><strong>Username:</strong></label> {{ currentUsuario.username }}
+        </div>
+        <div>
+            <label><strong>Email:</strong></label>
+            {{ currentUsuario.email }}
+        </div>
+        
+        
+    </div>
+    <div *ngIf="!currentUsuario">
+        <br />
+        <p>Please click on a User...</p>
+    </div>
+</div>
+<ng-template #editable>
+    <div *ngIf="currentUsuario.id" class="edit-form">
+        <form>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" [(ngModel)]="currentUsuario.username" name="username" />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" [(ngModel)]="currentUsuario.email"
+                    name="email" />
+            </div>
+            <div>
+                <a class="badge badge-warning" (click)="updateUsuario()"> 
+                <!--<routerLink="/usuarios/{{ currentUsuario.id }}">-->
+                    Edit
+                </a>
+            </div>
+            <div>
+                <a class="badge badge-warning" (click)="deleteUsuario()">
+                    Delete
+                </a>
+            </div>
+        </form>
+    </div>
+</ng-template>

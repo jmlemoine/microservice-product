@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">
+
+    <changeSet id="1" author="sha">
+        <sql>
+            CREATE TABLE roles (
+                id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                name VARCHAR(50) NOT NULL
+            );
+        </sql>
+        <rollback>
+            DROP TABLE roles;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="sha">
+        <sql>
+            INSERT INTO roles(name) VALUES('ROLE_USER');
+            INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
+            INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+        </sql>
+        <rollback>
+            TRUNCATE TABLE roles;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

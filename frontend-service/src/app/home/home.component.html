@@ -1,0 +1,111 @@
+<div class="container" *ngIf="currentUser; else loggedOut">
+    <header class="jumbotron">
+        <p>{{ content }}</p>
+    </header>
+    
+    <form (ngSubmit)="submit()" novalidate> <!--[formGroup]="form" (ngSubmit)="submit()" novalidate>-->
+        <!--<div class="form-group">
+            <div class="list row">
+                <div class="col-md-6">
+                    <label for="products"></label>
+                    <div class="form-check" *ngFor="let currentPlan of planes; let i = index">-->
+                        <!--<input #saveCheckBox id="saveCheckBox" 
+                                type="checkbox" [checked]="saveCheck" 
+                                (change)="saveCheckChanged(saveCheckBox.checked)"> {{ currentPlan.nombre }}: ${{ currentPlan.costo | number }}-->
+        
+                        <!--<input type="checkbox" checked="{{ currentPlan.nombre }}" /> {{ currentPlan.nombre }}: ${{
+                        currentPlan.costo | number }}-->
+
+
+        
+                        <!--<input type="checkbox" [value]="currentPlan.costo" /> {{ currentPlan.nombre }}: ${{
+                        currentPlan.costo | number }}-->
+                        
+                        
+                        
+
+
+                        <!--<input 
+                            class="form-check-input"    
+                            [(ngModel)]="currentPlan.costo" 
+                            name="{{currentPlan.costo}}" 
+                            type="checkbox"  
+                            id="{{currentPlan.costo}}"
+                        >
+                        <label class="form-check-input" for="{{currentPlan.costo}}">
+                            {{currentPlan.costo}}
+                        </label>-->
+                    <!--</div>-->
+                    <br />
+                    <div class="form-group">
+                        <!--<div class="form-control">-->
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="pre" [(ngModel)]="pre" (change)="sub()"> Pre-Boda: $1000
+                            </label>
+                            <br />
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="boda" [(ngModel)]="boda" (change)="sub()"> Boda: $5000
+                            </label>
+                            <br />
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="hbd" [(ngModel)]="hbd" (change)="sub()"> Cumpleaños: $3000
+                            </label>
+                            <br />
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="evento" [(ngModel)]="evento" (change)="sub()"> Vídeo de Evento: $4000
+                            </label>
+                        <!--</div>-->
+                    </div>
+                    <div>
+                        
+                        <label>Total: {{ totalPlanes }}</label>
+                    </div>
+                    <div>
+                        
+                    </div>
+
+                    <!--<div *ngIf="!currentTutorial">
+                                    <br />
+                                    <p>Please click on a tutorial</p>
+                                </div>-->
+                <!--</div>
+            </div>
+        </div>-->
+        <input type="submit" value="Submit">
+        <!--<button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>-->
+    </form>
+    <br />
+    <div class="form-check" *ngFor="let currentUsuario of usuarios; let i = index">
+        <div>
+            <label>{{currentUsuario.username}}</label>
+            <input 
+                class="form-check-input" 
+                [(ngModel)]="currentUsuario.username"     
+                name="{{currentUsuario.username}}" 
+                type="text"
+                id="{{currentUsuario.username}}" 
+            />
+            
+        </div>
+        <div>
+            <label>{{currentUsuario.email}}</label>
+            <input 
+                class="form-check-input" 
+                [(ngModel)]="currentUsuario.email" 
+                name="{{currentUsuario.email}}" 
+                type="hidden"
+                id="{{currentUsuario.email}}" 
+                disabled
+            />
+        </div>
+        <a class="badge badge-warning" routerLink="/usuarios/{{ currentUsuario.id }}">
+            Edit
+        </a>
+        <br /><br />
+    </div>
+    
+</div>
+
+<ng-template #loggedOut>
+    Please login.
+</ng-template>
