@@ -21,32 +21,51 @@ public class UsuarioDetailsImpl implements UserDetails {
 
     private String email;
 
+    private String name;
+
+    private String lastname;
+
     @JsonIgnore
     private String password;
 
+    private String role;
+
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UsuarioDetailsImpl(Long id, String username, String email, String password,
+    /*public UsuarioDetailsImpl(Long id, String username, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+    }*/
+
+    public UsuarioDetailsImpl(Long id, String username, String email, String password, String name, String lastname, String role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.lastname = lastname;
+        this.role = role;
     }
 
     public static UsuarioDetailsImpl build(Usuarios user) {
 
-        List<GrantedAuthority> authorities = user.getRols().stream()
+        /*List<GrantedAuthority> authorities = user.getRols().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
         return new UsuarioDetailsImpl(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities);
+                user.getName(),
+                user.getLastname(),
+                user.getRole()
+                /*authorities*/);
 
     }
 
@@ -64,6 +83,30 @@ public class UsuarioDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() { return password; }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

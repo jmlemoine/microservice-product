@@ -60,9 +60,10 @@
                         
                         <label>Total: {{ totalPlanes }}</label>
                     </div>
-                    <div>
-                        
-                    </div>
+
+                    <!--<div #paypal></div>-->
+                    <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+
 
                     <!--<div *ngIf="!currentTutorial">
                                     <br />
@@ -75,7 +76,7 @@
         <!--<button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>-->
     </form>
     <br />
-    <div class="form-check" *ngFor="let currentUsuario of usuarios; let i = index">
+    <!--<div class="form-check" *ngFor="let currentUsuario of usuarios; let i = index">
         <div>
             <label>{{currentUsuario.username}}</label>
             <input 
@@ -102,7 +103,7 @@
             Edit
         </a>
         <br /><br />
-    </div>
+    </div>-->
     
 </div>
 

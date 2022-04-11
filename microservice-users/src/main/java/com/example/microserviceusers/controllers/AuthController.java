@@ -120,15 +120,18 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UsuarioDetailsImpl usuarioDetails = (UsuarioDetailsImpl) authentication.getPrincipal();
-        List<String> roles = usuarioDetails.getAuthorities().stream()
+        /*List<String> roles = usuarioDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 usuarioDetails.getId(),
                 usuarioDetails.getUsername(),
                 usuarioDetails.getEmail(),
-                roles));
+                usuarioDetails.getName(),
+                usuarioDetails.getPassword(),
+                usuarioDetails.getRole()
+                /*roles*/));
 
     }
 
@@ -146,22 +149,32 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        Usuarios usuarios = new Usuarios(signUpRequest.getUsername(),
+        /*Usuarios usuarios = new Usuarios(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()));*/
 
         Set<String> strRols = signUpRequest.getRole();
         Set<Rols> rols = new HashSet<>();
-        /*Rols adminRols = rolsRepository.findByName(ERols.ROLE_ADMIN)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 
-        if (signUpRequest.getEmail() == "popo@gmail.com") {
+        Usuarios users;
 
-            rols.add(adminRols);
+        if (signUpRequest.getEmail() == "moxy04@gmail.com") {
+            users = new Usuarios(signUpRequest.getUsername(),
+                    signUpRequest.getEmail(),
+                    encoder.encode(signUpRequest.getPassword()),
+                    signUpRequest.getName(),
+                    signUpRequest.getLastname(), "ADMIN");
+        }
+        else {
+            users = new Usuarios(signUpRequest.getUsername(),
+                    signUpRequest.getEmail(),
+                    encoder.encode(signUpRequest.getPassword()),
+                    signUpRequest.getName(),
+                    signUpRequest.getLastname(), "USER");
+        }
 
-        }*/
 
-        if (strRols == null) {
+        /*if (strRols == null) {
             if (signUpRequest.getEmail() == "popo@gmail.com") {
                 Rols adminRols = rolsRepository.findByName(ERols.ROLE_ADMIN)
                         .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -196,13 +209,16 @@ public class AuthController {
                         rols.add(userRol);
                 }
             });
-        }
+        }*/
 
-        usuarios.setRols(rols);
-        usuariosRepository.save(usuarios);
+        /*usuarios.setRols(rols);
+        usuariosRepository.save(usuarios);*/
+
+        usuariosRepository.save(users);
+
         try {
             //sendEmail();
-            sendEmailWithAttachment(signUpRequest.getEmail());
+            sendEmailWithAttachment(signUpRequest.getEmail(), signUpRequest.getUsername());
         } /*catch (MessagingException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -216,18 +232,19 @@ public class AuthController {
 
     }
 
-    void sendEmailWithAttachment(String email) throws MessagingException, IOException {
+    void sendEmailWithAttachment(String email, String username) throws MessagingException, IOException {
         try {
             MimeMessage msg = javaMailSender.createMimeMessage();
             // true = multipart message
             MimeMessageHelper helper = new MimeMessageHelper(msg, true);
             helper.setTo(/*"moxy04@gmail.com"*/email);
-            helper.setSubject("Testing from Spring Boot");
+            helper.setSubject("El usuario " + username + " ha sido creado");
             // default = text/plain
             //helper.setText("Check attachment for image!");
             // true = text/html
-            helper.setText("<h1>Check attachment for image!</h1>", true);
-            helper.setText("<a href=\"http://localhost:4200/home\">Click here</a>", true);
+            helper.setText("<h1>Su cuenta con el nombre de usuario </h1>'"+username+"'<h1> ha sido creada exitosamente!</h1>", true);
+            helper.setText("<h1>Puede acceder a su cuenta con las datos que ha completado.</h1>", true);
+            helper.setText("<a href=\"http://localhost:4200/login\">Click here</a>", true);
             // hard coded a file path
             //FileSystemResource file = new FileSystemResource(new File("path/android.png"));
             //helper.addAttachment("my_photo.png", new ClassPathResource("android.png"));

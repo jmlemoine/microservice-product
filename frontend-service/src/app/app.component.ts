@@ -1,7 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from './_services/token-storage.service';
+import { render } from 'creditcardpayments/creditCardPayments';
+
+declare var paypal: any;
 
 @Component({
   selector: 'app-root',
@@ -16,7 +19,28 @@ export class AppComponent {
   showModeratorBoard = false;
   username!: string;
 
-  constructor(private tokenStorageService: TokenStorageService, private http: HttpClient) { }
+  @ViewChild('paypal', { static: true }) paypalElement: ElementRef | undefined;
+
+  producto = {
+    descripcion: 'Producto en Venta',
+    costo: /*this.totalPlanes*/500,
+    img: 'Imagen de Producto'
+  }
+
+  constructor(private tokenStorageService: TokenStorageService, private http: HttpClient) {
+
+    /*render(
+      {
+        id: "myPaypalButtons",
+        currency: "USD",
+        value: "10.00",
+        onApprove: (details: any) => {
+          alert("Transaction Successfull!");
+        }
+      }
+    )*/
+
+  }
   
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();

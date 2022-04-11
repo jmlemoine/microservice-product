@@ -3,7 +3,7 @@
         <p>{{ content }}</p>
     </header>
 </div>
-<div *ngIf="viewMode; else editable">
+<!--<div *ngIf="viewMode; else editable">
     <div *ngIf="currentUsuario.id">
         <h4>Usuario</h4>
         <div>
@@ -20,9 +20,59 @@
         <br />
         <p>Please click on a User...</p>
     </div>
-</div>
-<ng-template #editable>
+</div>-->
+
+<div class="container" *ngIf="currentUser; else loggedOut">
     <div *ngIf="currentUsuario.id" class="edit-form">
+        <form>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" [(ngModel)]="currentUsuario.username"
+                    name="username" />
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" [(ngModel)]="currentUsuario.name" name="name" />
+            </div>
+            <div class="form-group">
+                <label for="lastname">Lastname</label>
+                <input type="text" class="form-control" id="lastname" [(ngModel)]="currentUsuario.lastname" name="lastname" />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" [(ngModel)]="currentUsuario.email" name="email" />
+            </div>
+            <!--<div class="form-group">
+                <label for="role">Rol</label>
+                <input type="text" class="form-control" id="role" [(ngModel)]="currentUsuario.role" name="role" />
+            </div>-->
+                <label for="role">Rol</label>
+                <!--<select id="roles" name="roles" [(ngModel)]="usselected" (ngModelChange)="onUserRol($event)" class="form-control">-->
+                <!--<select id="roles" name="roles" [(ngModel)]="currentUsuario.role" (ngModelChange)="onUserRol($event)" class="form-control">-->
+                    <select id="roles" name="roles" [(ngModel)]="currentUsuario.role" (ngModelChange)="onUserRol(currentUsuario.role)" class="form-control">
+                    <option *ngFor="let r of roles" [value]="r.name">
+                        {{r.name}}
+                    </option>
+                </select>
+                <!--Selected value is -->{{modifRol}}
+                
+            <div>
+                <a class="badge badge-warning" (click)="updateUsuario()">
+                    <!--<routerLink="/usuarios/{{ currentUsuario.id }}">-->
+                    Edit
+                </a>
+            </div>
+            <div>
+                <a class="badge badge-warning" (click)="deleteUsuario()">
+                    Delete
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ng-template #loggedOut>
+    <!--<div *ngIf="currentUsuario.id" class="edit-form">
         <form>
             <div class="form-group">
                 <label for="username">Username</label>
@@ -34,10 +84,10 @@
                     name="email" />
             </div>
             <div>
-                <a class="badge badge-warning" (click)="updateUsuario()"> 
+                <a class="badge badge-warning" (click)="updateUsuario()">--> 
                 <!--<routerLink="/usuarios/{{ currentUsuario.id }}">-->
-                    Edit
-                </a>
+                    Please login.
+                <!--</a>
             </div>
             <div>
                 <a class="badge badge-warning" (click)="deleteUsuario()">
@@ -45,5 +95,5 @@
                 </a>
             </div>
         </form>
-    </div>
+    </div>-->
 </ng-template>

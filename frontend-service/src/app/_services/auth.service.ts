@@ -28,19 +28,21 @@ export class AuthService {
       email: user.email,
       //role: "",
       password: user.password,
-      /*name: "",
-      lastname: ""*/
+      name: user.name,
+      lastname: user.lastname,
+      rol: user.rol
     }, httpOptions);
   }
 
   registerAt(user: any): Observable<any> {
     return this.http.post(AUTH_API + 'signup', {
-      username: "popo",
-      email: "popo@gmail.com",
+      username: "rose",
+      email: "moxy04@gmail.com",
       //role: "",
       password: "kokykoky",
-      name: "",
-      lastname: ""
+      name: "Roselin",
+      lastname: "Sosa",
+      rol: "ADMIN"
     }, httpOptions);
   }
 

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule} from '@angular/common/http';
 
@@ -14,6 +15,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
+import { NgxPayPalModule } from 'ngx-paypal';
+import { UsuariosComponent } from './usuarios/usuarios.component'
+import { ToastrModule } from 'ngx-toastr';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 /*import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
@@ -28,7 +33,8 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";*/
     ProfileComponent,
     BoardUserComponent,
     BoardModeratorComponent,
-    BoardAdminComponent
+    BoardAdminComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
@@ -37,13 +43,18 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";*/
     HttpClientModule,
     BrowserAnimationsModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    NgxPayPalModule,
+    ToastrModule.forRoot(),
     /*,
     NativeScriptModule,
     NativeScriptFormsModule,
     NativeScriptHttpModule*/
   ],
-  providers: [],
+  providers: [
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,4 +4,7 @@ export class Usuarios {
   email?: string;
   password?: string;
   rols?: string;
+  name?: string;
+  lastname?: string;
+  role?: string;
 }

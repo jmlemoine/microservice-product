@@ -46,9 +46,11 @@ public class MicroserviceUsersApplication implements CommandLineRunner {
 		System.out.println("Cantidad de Roles: "+count);
 
 		if (count==0) {
-			jdbcTemplate.update(sqlQuery, "ROLE_USER");
+			/*jdbcTemplate.update(sqlQuery, "ROLE_USER");
 			jdbcTemplate.update(sqlQuery, "ROLE_MODERATOR");
-			jdbcTemplate.update(sqlQuery, "ROLE_ADMIN");
+			jdbcTemplate.update(sqlQuery, "ROLE_ADMIN");*/
+			jdbcTemplate.update(sqlQuery, "USER");
+			jdbcTemplate.update(sqlQuery, "ADMIN");
 		}
 
 		/*Usuarios usuarios = new Usuarios("Popo",

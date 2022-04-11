@@ -20,7 +20,12 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@material/form-field": "^13.0.0",
+    "creditcardpayments": "^1.0.3",
     "nativescript-email": "^1.6.0",
+    "ngx-paypal": "^9.0.0",
+    "ngx-spinner": "^13.1.1",
+    "ngx-toastr": "^13.2.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

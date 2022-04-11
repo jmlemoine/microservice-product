@@ -1,5 +1,5 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Planes } from '../models/planes';
 import { Usuarios } from '../models/usuarios';
@@ -7,6 +7,8 @@ import { AuthService } from '../_services/auth.service';
 import { PlanesService } from '../_services/planes.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { UserService } from '../_services/user.service';
+import { IPayPalConfig, ICreateOrderRequest } from 'ngx-paypal';
+import { environment } from './../../environments/environment';
 
 //import * as email from 'nativescript-email';
 //import { email } from "nativescript-email";
@@ -17,12 +19,16 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+declare var paypal: any;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
+  public payPalConfig?: IPayPalConfig;
 
   content!: string;
   currentUser: any;
@@ -57,6 +63,13 @@ export class HomeComponent implements OnInit {
 
   totalPlanes = 0;
 
+  //@ViewChild('paypal', { static: true }) paypalElement: ElementRef | undefined;
+
+  producto = {
+    descripcion: 'Producto en Venta',
+    costo: /*this.totalPlanes*/500,
+    img: 'Imagen de Producto'
+  }
 
   constructor(private userService: UserService,
     private authService: AuthService,
@@ -65,15 +78,20 @@ export class HomeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private fb: FormBuilder
-    ) {
-      this.form = formBuilder.group({
-        products: formBuilder.array([], [Validators.required]),
-      })
-    }
+  ) {
+    this.form = formBuilder.group({
+      products: formBuilder.array([], [Validators.required]),
+    })
+  }
 
-    
+
 
   ngOnInit(): void {
+    /*paypal
+      .Buttons()
+      .render(this.paypalElement?.nativeElement);*/
+    this.initConfig();
+    
     this.currentUser = this.token.getUser();
     this.userService.getPublicContent().subscribe(
       data => {
@@ -93,8 +111,70 @@ export class HomeComponent implements OnInit {
     //this.onSubmit();
   }
 
+  private initConfig(): void {
+    this.payPalConfig = {
+      currency: 'USD',
+      clientId: environment.clientId,
+      createOrderOnClient: (data) => <ICreateOrderRequest> {
+        intent: 'CAPTURE',
+        purchase_units: [{
+          amount: {
+            currency_code: 'USD',
+            value: '9.99',
+            breakdown: {
+              item_total: {
+                currency_code: 'USD',
+                value: '9.99'
+              }
+            }
+          },
+          items: [{
+            name: 'Enterprise Subscription',
+            quantity: '1',
+            category: 'DIGITAL_GOODS',
+            unit_amount: {
+              currency_code: 'USD',
+              value: '9.99',
+            },
+          }]
+        }]
+      },
+      advanced: {
+        commit: 'true'
+      },
+      style: {
+        label: 'paypal',
+        layout: 'vertical'
+      },
+      onApprove: (data, actions) => {
+        console.log('onApprove - transaction was approved, but not authorized', data, actions);
+        actions.order.get().then((details: any) => {
+          console.log('onApprove - you can get full order details inside onApprove: ', details)
+        });
+
+      },
+      onClientAuthorization: (data) => {
+        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+        //this.showSuccess = true;
+      },
+      onCancel: (data, actions) => {
+        console.log('OnCancel', data, actions);
+        //this.showCancel = true;
+
+      },
+      onError: err => {
+        console.log('OnError', err);
+        //this.showError = true;
+      },
+      onClick: (data, actions) => {
+        console.log('onClick', data, actions);
+        //this.resetStatus();
+      }
+    };
+  }
+
   onCheckboxChange(name: any, isChecked: boolean) {
-      
+
     const cartoons = (this.form.controls.name as FormArray);
 
     if (isChecked) {
@@ -117,12 +197,12 @@ export class HomeComponent implements OnInit {
     }
   }*/
 
-  sub() { 
+  sub() {
     let pb: number = 0;
     let b: number = 0;
     let ca: number = 0;
     let ve: number = 0;
-    
+
     let total: number = 0;
 
     if (this.pre/* = true*/) {
@@ -150,7 +230,7 @@ export class HomeComponent implements OnInit {
     let b: number = 0;
     let ca: number = 0;
     let ve: number = 0;
-    
+
     let total: number = 0;
 
     //console.log(this.pre/* = true*/);
@@ -170,8 +250,8 @@ export class HomeComponent implements OnInit {
     total = pb + b + ca + ve;
     console.log(total);
   }
-    
-    
+
+
 
   /*public saveCheckChanged(pre:any, boda: boolean){
     
