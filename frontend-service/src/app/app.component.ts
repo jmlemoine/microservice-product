@@ -46,9 +46,11 @@ export class AppComponent {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
+      console.log("klk "+user.username);
       this.roles = user.roles;
       if (typeof(this.roles) !== undefined) {
         console.log("NOT NULO");
+        
       }
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');

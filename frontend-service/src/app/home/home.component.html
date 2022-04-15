@@ -1,8 +1,13 @@
 <div class="container" *ngIf="currentUser; else loggedOut">
     <header class="jumbotron">
-        <p>{{ content }}</p>
+        <!--<p>{{ content }}</p>
+        <p>{{ messages }}</p>
+        <p>{{ displayUser }}</p>-->
+        <h1>Welcome {{userDisplayName}}</h1>
     </header>
-    
+    <div class="c1">
+        <app-login (event)="receiveUsuario($event)"></app-login>
+    </div>
     <form (ngSubmit)="submit()" novalidate> <!--[formGroup]="form" (ngSubmit)="submit()" novalidate>-->
         <!--<div class="form-group">
             <div class="list row">

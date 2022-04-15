@@ -34,6 +34,8 @@ export class TokenStorageService {
   public getUser(): any {
     if (sessionStorage.getItem(USER_KEY) !== null) {
       return "NOT NULO";
+      //return JSON.parse(localStorage.getItem('user'));
+      //return USER_KEY;
     }
     return JSON.parse(sessionStorage.getItem(USER_KEY)!);
   }

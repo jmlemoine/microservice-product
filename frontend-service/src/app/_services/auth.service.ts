@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Usuarios } from '../models/usuarios';
 
 const AUTH_API = 'http://localhost:8000/api/auth/';
 
@@ -13,13 +14,40 @@ const httpOptions = {
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  /*private userSubject: BehaviorSubject<Usuarios>;
+  public usuario: Observable<Usuarios>;*/
+
+  constructor(private http: HttpClient) {
+    /*this.userSubject = new BehaviorSubject<Usuarios>(
+      JSON.parse(localStorage.getItem('currentUsuarioLogueado')!)
+    );
+    this.usuario = this.userSubject.asObservable();*/
+  }
+
+  /*public get userValue(): Usuarios {
+    return this.userSubject.value;
+  }*/
 
   login(credentials: any): Observable<any> {
     return this.http.post(AUTH_API + 'signin', {
       username: credentials.username,
       password: credentials.password
     }, httpOptions);
+      /*.pipe(
+        map(({ }) => {
+          console.log("Klk con " + credentials.username);
+          localStorage.setItem('currentUsuarioLogueado', JSON.stringify(currentUsuariocredentials.username));
+          /*let currentUsuario: Usuarios = {
+            username: credentials.username,
+            password: credentials.password,
+          };
+          localStorage.setItem('currentUsuarioLogueado', JSON.stringify(/*currentUsuario*//*credentials.username));
+          this.userSubject.next(currentUsuario);
+          console.log("Klk con " + credentials.username);
+          //return currentUsuario;
+      })
+    )*/
+    
   }
 
   register(user: any): Observable<any> {

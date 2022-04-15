@@ -1,5 +1,5 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Planes } from '../models/planes';
 import { Usuarios } from '../models/usuarios';
@@ -9,6 +9,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { UserService } from '../_services/user.service';
 import { IPayPalConfig, ICreateOrderRequest } from 'ngx-paypal';
 import { environment } from './../../environments/environment';
+import jwt_decode from 'jwt-decode';
 
 //import * as email from 'nativescript-email';
 //import { email } from "nativescript-email";
@@ -84,18 +85,40 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  messages?: string;// | undefined;
+  displayUser?: string;// | undefined;
+  userDisplayName?: string | null;
 
+  receiveUsuario($event: any) {
+    //this.messages = $event;
+    this.displayUser = $event;
+  }
+
+  @Input() usuarioLogged: Usuarios = {
+    username: '',
+    email: '',
+    password: '',
+    rols: '',
+    role: ''
+  }
 
   ngOnInit(): void {
     /*paypal
       .Buttons()
       .render(this.paypalElement?.nativeElement);*/
+    //console.log("Nombre de Usuario: "+this.usuarioLogged.username);
+    
+    //this.userDisplayName = sessionStorage.getItem('currentUsuarioLogueado');
+    this.userDisplayName = localStorage/*sessionStorage*/.getItem('currentUsuarioLogueado');
+    //this.displayUser = jwt_decode(this.token)['username'];
+    console.log("Username: "+this.userDisplayName);
     this.initConfig();
     
     this.currentUser = this.token.getUser();
     this.userService.getPublicContent().subscribe(
       data => {
         this.content = data;
+        console.log(/*this.currentUser*/this.content);
       },
       err => {
         this.content = JSON.parse(err.error).message;
@@ -113,17 +136,17 @@ export class HomeComponent implements OnInit {
 
   private initConfig(): void {
     this.payPalConfig = {
-      currency: 'USD',
+      currency: 'USD'/*'DOP'*//*'MXN'*/,
       clientId: environment.clientId,
       createOrderOnClient: (data) => <ICreateOrderRequest> {
         intent: 'CAPTURE',
         purchase_units: [{
           amount: {
-            currency_code: 'USD',
+            currency_code: 'USD'/*'DOP/*MXN'*/,
             value: '9.99',
             breakdown: {
               item_total: {
-                currency_code: 'USD',
+                currency_code: 'USD'/*'DOP'*//*'MXN'*/,
                 value: '9.99'
               }
             }
@@ -133,7 +156,7 @@ export class HomeComponent implements OnInit {
             quantity: '1',
             category: 'DIGITAL_GOODS',
             unit_amount: {
-              currency_code: 'USD',
+              currency_code: 'USD'/*'DOP'*//*'MXN'*/,
               value: '9.99',
             },
           }]
@@ -167,6 +190,8 @@ export class HomeComponent implements OnInit {
         //this.showError = true;
       },
       onClick: (data, actions) => {
+        this.submit();
+        console.log("Compra hecha por: " + this.userDisplayName);
         console.log('onClick', data, actions);
         //this.resetStatus();
       }
@@ -247,8 +272,9 @@ export class HomeComponent implements OnInit {
       ve = 4000;
     }
 
+    console.log(pb + ":" + b + ":" + ca + ":"+ve);
     total = pb + b + ca + ve;
-    console.log(total);
+    console.log("Compra total: "+total);
   }
 
 
