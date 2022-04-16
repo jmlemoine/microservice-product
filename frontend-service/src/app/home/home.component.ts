@@ -14,12 +14,6 @@ import jwt_decode from 'jwt-decode';
 //import * as email from 'nativescript-email';
 //import { email } from "nativescript-email";
 
-const AUTH_API = 'http://localhost:8000/api/auth/';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
 declare var paypal: any;
 
 @Component({
@@ -47,8 +41,8 @@ export class HomeComponent implements OnInit {
   currentIndex = -1;
   nombre = '';
 
-  baseUrl = 'http://localhost:8001/api/planes';
-  baseUrlUsers = 'http://localhost:8000/api/auth/usuarios';
+/*  baseUrl = 'http://localhost:8001/api/planes';
+  baseUrlUsers = 'http://localhost:8000/api/auth/usuarios';*/
 
   saveCheck: boolean = false;
 
@@ -63,6 +57,10 @@ export class HomeComponent implements OnInit {
   evento = false;
 
   totalPlanes = 0;
+  pb: number = 0;
+  b: number = 0;
+  ca: number = 0;
+  ve: number = 0;
 
   //@ViewChild('paypal', { static: true }) paypalElement: ElementRef | undefined;
 
@@ -93,12 +91,14 @@ export class HomeComponent implements OnInit {
   calcularTotal() { 
     this.totalPlanes = 0;
     this.planes?.forEach((row: any) => {
-      console.log(row.nombre);
-      console.log(row.costo);
+      console.log("Nombre: "+row.nombre);
+      console.log("Costo: "+row.costo);
       console.log(row.check);
+      console.log(row.nombre.lastIndexOf('Cumpleaños'));//.lastIndexOf('Dodo'));
       if (row.check) { 
         this.totalPlanes += row.costo
       }
+      console.log(this.totalPlanes);
     })
   }
 
@@ -148,6 +148,7 @@ export class HomeComponent implements OnInit {
   }
 
   private initConfig(): void {
+    
     this.payPalConfig = {
       currency: 'USD'/*'DOP'*//*'MXN'*/,
       clientId: environment.clientId,
@@ -186,6 +187,11 @@ export class HomeComponent implements OnInit {
         console.log('onApprove - transaction was approved, but not authorized', data, actions);
         actions.order.get().then((details: any) => {
           console.log("Compra hecha por: " + this.userDisplayName);
+          /*console.log("Pre-Boda: " + this.pb);
+          console.log("Boda: " + this.b);
+          console.log("Cumpleaños: " + this.ca);
+          console.log("Vídeo de Evento: " + this.ve);*/
+          this.calcularTotal();
           console.log("Total: "+this.totalPlanes);
           // Poner la función y la ruta con Zuul para registrar la compra, y enviar el correo inmediatamente
           console.log('onApprove - you can get full order details inside onApprove: ', details)
@@ -239,28 +245,26 @@ export class HomeComponent implements OnInit {
   }*/
 
   sub() {
-    let pb: number = 0;
-    let b: number = 0;
-    let ca: number = 0;
-    let ve: number = 0;
-
-    let total: number = 0;
-
+    
     if (this.pre/* = true*/) {
-      pb = 1000;
+      this.pb = 1000;
     }
     if (this.boda) {
-      b = 5000;
+      this.b = 5000;
     }
     if (this.hbd) {
-      ca = 3000;
+      this.ca = 3000;
     }
     if (this.evento) {
-      ve = 4000;
+      this.ve = 4000;
     }
 
     //total = pb + b + ca + ve;
-    this.totalPlanes = pb + b + ca + ve;
+    this.totalPlanes = this.pb + this.b + this.ca + this.ve;
+    console.log("Pre-Boda: " + this.pb);
+    console.log("Boda: " + this.b);
+    console.log("Cumpleaños: " + this.ca);
+    console.log("Vídeo de Evento: " + this.ve);
     console.log(this.totalPlanes);
 
   }

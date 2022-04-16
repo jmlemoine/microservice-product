@@ -4,7 +4,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Usuarios } from '../models/usuarios';
 
 // const AUTH_API = 'http://localhost:8000/api/auth/';
-const ZUUL_API = 'http://localhost:8765/api'
+const ZUUL_API = 'http://localhost:8765/api';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };

@@ -38,7 +38,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/auth")
 @Component
@@ -87,6 +88,8 @@ public class AuthController {
             _usuario.setId(usuario.getId());
             _usuario.setUsername(usuario.getUsername());
             _usuario.setEmail(usuario.getEmail());
+            _usuario.setName(usuario.getName());
+            _usuario.setLastname(usuario.getLastname());
             _usuario.setRole(usuario.getRole());
             return new ResponseEntity<>(usuariosRepository.save(_usuario), HttpStatus.OK);
             /*_tutorial.setTitle(usuario.getTitle());

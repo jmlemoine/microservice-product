@@ -40,6 +40,8 @@ export class BoardUserComponent implements OnInit {
     email: '',
     password: '',
     rols: '',
+    name: '',
+    lastname: '',
     role: ''
   }
 
