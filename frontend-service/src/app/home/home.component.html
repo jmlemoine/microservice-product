@@ -12,14 +12,15 @@
         <!--<div class="form-group">
             <div class="list row">
                 <div class="col-md-6">
-                    <label for="products"></label>
-                    <div class="form-check" *ngFor="let currentPlan of planes; let i = index">-->
+                    <label for="products"></label>-->
+                    <div class="form-check" *ngFor="let currentPlan of planes; let i = index">
                         <!--<input #saveCheckBox id="saveCheckBox" 
                                 type="checkbox" [checked]="saveCheck" 
                                 (change)="saveCheckChanged(saveCheckBox.checked)"> {{ currentPlan.nombre }}: ${{ currentPlan.costo | number }}-->
         
-                        <!--<input type="checkbox" checked="{{ currentPlan.nombre }}" /> {{ currentPlan.nombre }}: ${{
-                        currentPlan.costo | number }}-->
+                        <input type="checkbox" [checked]="currentPlan.check" 
+                        (change)=" currentPlan.check = !currentPlan.check ;calcularTotal()" /> {{ currentPlan.nombre }}: ${{
+                        currentPlan.costo | number }}
 
 
         
@@ -29,21 +30,11 @@
                         
                         
 
-
-                        <!--<input 
-                            class="form-check-input"    
-                            [(ngModel)]="currentPlan.costo" 
-                            name="{{currentPlan.costo}}" 
-                            type="checkbox"  
-                            id="{{currentPlan.costo}}"
-                        >
-                        <label class="form-check-input" for="{{currentPlan.costo}}">
-                            {{currentPlan.costo}}
-                        </label>-->
-                    <!--</div>-->
+                        
+                    </div>
                     <br />
-                    <div class="form-group">
-                        <!--<div class="form-control">-->
+                    <!-- <div class="form-group">
+                        <div class="form-control">
                             <label class="checkbox-inline">
                                 <input type="checkbox" name="pre" [(ngModel)]="pre" (change)="sub()"> Pre-Boda: $1000
                             </label>
@@ -59,11 +50,11 @@
                             <label class="checkbox-inline">
                                 <input type="checkbox" name="evento" [(ngModel)]="evento" (change)="sub()"> Vídeo de Evento: $4000
                             </label>
-                        <!--</div>-->
-                    </div>
+                        </div>
+                    </div>-->
                     <div>
                         
-                        <label>Total: {{ totalPlanes }}</label>
+                        <label>Total: ${{ totalPlanes | number }}</label>
                     </div>
 
                     <!--<div #paypal></div>-->

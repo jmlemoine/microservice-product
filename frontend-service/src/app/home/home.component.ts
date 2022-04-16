@@ -89,6 +89,19 @@ export class HomeComponent implements OnInit {
   displayUser?: string;// | undefined;
   userDisplayName?: string | null;
 
+
+  calcularTotal() { 
+    this.totalPlanes = 0;
+    this.planes?.forEach((row: any) => {
+      console.log(row.nombre);
+      console.log(row.costo);
+      console.log(row.check);
+      if (row.check) { 
+        this.totalPlanes += row.costo
+      }
+    })
+  }
+
   receiveUsuario($event: any) {
     //this.messages = $event;
     this.displayUser = $event;
@@ -172,6 +185,9 @@ export class HomeComponent implements OnInit {
       onApprove: (data, actions) => {
         console.log('onApprove - transaction was approved, but not authorized', data, actions);
         actions.order.get().then((details: any) => {
+          console.log("Compra hecha por: " + this.userDisplayName);
+          console.log("Total: "+this.totalPlanes);
+          // Poner la función y la ruta con Zuul para registrar la compra, y enviar el correo inmediatamente
           console.log('onApprove - you can get full order details inside onApprove: ', details)
         });
 
@@ -190,9 +206,9 @@ export class HomeComponent implements OnInit {
         //this.showError = true;
       },
       onClick: (data, actions) => {
-        this.submit();
+        /*this.submit();
         console.log("Compra hecha por: " + this.userDisplayName);
-        console.log('onClick', data, actions);
+        console.log('onClick', data, actions);*/
         //this.resetStatus();
       }
     };
@@ -320,6 +336,7 @@ export class HomeComponent implements OnInit {
     this.planesService.getAll()
       .subscribe({
         next: (data) => {
+          data.forEach((row: any)=>{row.check =false })
           this.planes = data;
           console.log(data);
         },

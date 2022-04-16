@@ -87,6 +87,7 @@ public class AuthController {
             _usuario.setId(usuario.getId());
             _usuario.setUsername(usuario.getUsername());
             _usuario.setEmail(usuario.getEmail());
+            _usuario.setRole(usuario.getRole());
             return new ResponseEntity<>(usuariosRepository.save(_usuario), HttpStatus.OK);
             /*_tutorial.setTitle(usuario.getTitle());
             _tutorial.setDescription(tutorial.getDescription());
@@ -158,7 +159,12 @@ public class AuthController {
 
         Usuarios users;
 
-        if (signUpRequest.getEmail() == "moxy04@gmail.com") {
+        users = new Usuarios(signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getName(),
+                signUpRequest.getLastname(), signUpRequest.getRol());
+        /*if (signUpRequest.getEmail().) {
             users = new Usuarios(signUpRequest.getUsername(),
                     signUpRequest.getEmail(),
                     encoder.encode(signUpRequest.getPassword()),
@@ -171,7 +177,7 @@ public class AuthController {
                     encoder.encode(signUpRequest.getPassword()),
                     signUpRequest.getName(),
                     signUpRequest.getLastname(), "USER");
-        }
+        }*/
 
 
         /*if (strRols == null) {

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Usuarios } from '../models/usuarios';
 
-const AUTH_API = 'http://localhost:8000/api/auth/';
-
+// const AUTH_API = 'http://localhost:8000/api/auth/';
+const ZUUL_API = 'http://localhost:8765/api'
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -29,7 +29,8 @@ export class AuthService {
   }*/
 
   login(credentials: any): Observable<any> {
-    return this.http.post(AUTH_API + 'signin', {
+    //  return this.http.post(AUTH_API + 'signin', {
+    return this.http.post(ZUUL_API + '/user/api/auth/signin', {
       username: credentials.username,
       password: credentials.password
     }, httpOptions);
@@ -51,19 +52,19 @@ export class AuthService {
   }
 
   register(user: any): Observable<any> {
-    return this.http.post(AUTH_API + 'signup', {
+    return this.http.post(ZUUL_API + '/user/api/auth/signup', {
       username: user.username,
       email: user.email,
       //role: "",
       password: user.password,
       name: user.name,
       lastname: user.lastname,
-      rol: user.rol
+      rol: "USER"//user.rol
     }, httpOptions);
   }
 
   registerAt(user: any): Observable<any> {
-    return this.http.post(AUTH_API + 'signup', {
+    return this.http.post(ZUUL_API + '/user/api/auth/signup', {
       username: "rose",
       email: "moxy04@gmail.com",
       //role: "",
