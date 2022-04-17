@@ -18,11 +18,11 @@ public class CompraDetalle {
     @Column(name = "monto")
     private float monto;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    /*@OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "compra_factura",
             joinColumns = @JoinColumn(name = "compradetalle_id"),
             inverseJoinColumns = @JoinColumn(name = "compra_id"))
-    private Set<Compra> compradetalle = new HashSet<>();
+    private Set<Compra> compradetalle = new HashSet<>();*/
 
     @Column(name = "idpaquete")
     private long idpaquete;

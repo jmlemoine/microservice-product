@@ -15,10 +15,21 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "idusuario")
-    private long idusuario;
+    /*@Column(name = "idusuario")
+    private long idusuario;*/
+
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "total")
     private float total;
 
+    public Compra(String username, float total) {
+        this.username = username;
+        this.total = total;
+    }
+
+    public Compra() {
+
+    }
 }
