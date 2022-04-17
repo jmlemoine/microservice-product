@@ -70,6 +70,14 @@ export class HomeComponent implements OnInit {
     img: 'Imagen de Producto'
   }
 
+  plan = {
+    id: 0,
+    nombre: '',
+    costo: '',
+    check: false
+  };
+  submitted = false;
+
   constructor(private userService: UserService,
     private authService: AuthService,
     private token: TokenStorageService,
@@ -88,85 +96,49 @@ export class HomeComponent implements OnInit {
   userDisplayName?: string | null;
   selectedItemsList: any[] = [];
 
+  savePlan(): void {
+    let listPlanes: any[] = []
+
+    this.planes?.forEach((row: any) => {
+      if (row.check) { 
+        listPlanes.push(row);
+      }
+      
+    })
+    const data = {
+      //idusuario: this.usuarios?.filter((x) => { /*return x.username === this.userDisplayName*/ }),
+      username: this.userDisplayName,
+      total: this.totalPlanes,
+      //listPlanes: listPlanes
+    };
+    console.log(data);
+    
+    this.planesService.create(data)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.submitted = true;
+        },
+        error => {
+          console.log(error);
+        }
+      )
+  }
 
   calcularTotal() { 
     this.totalPlanes = 0;
-    /*if (this.pre) {
-      this.pb = 1000;
-    }
-    if (this.boda) {
-      this.b = 5000;
-    }
-    if (this.hbd) {
-      this.ca = 3000;
-    }
-    if (this.evento) {
-      this.ve = 4000;
-    }*/
-    
-    
 
-    //let i;
-    /*for (i = 0; i < this.planes?.length; i++) {
+    /*var ma = this.planes?.filter((x) => {return x.check === true})
+    console.log(ma)*/
 
-    }*/
-
-    /*for (var _i = 0; _i < numbers.length; _i++) {
-      var num = numbers[_i];
-      console.log(num);
-    }*/
-    
-    /*let len: number = this.planes?.length!;
-    for (var i = 0; i < this.planes?.length!; i++) {
-      console.log("Klk con klk: "+this.planes?[i]/*this.selectedItemsList[i].id);
-    }*/
-
-    
-
-    /*this.planes?.forEach((element, index)=>{
-      console.log(element.nombre+" : "+element.costo+" : "+index); // Prints the index at which the loop is currently at
-      console.log(`${index}:${element.check}`);
-      console.log(this.planes?.find(check => check.check === true))
-
-    }); */
-
-    /*var m = this.planes?.find(check => check.check === true);
-    console.log(m)///*this.planes?.some(check => check === true)*)
-    console.log(this.planes?.find(check => check.check === true))*/
-    var ma = this.planes?.filter((x) => {return x.check === true})
-    console.log(ma)
-
-    /*var i = 0;
-    for (i = 0; this.planes?.length; i++) { 
-      console.log("Ver: "+this.planes[i].check);
-      //console.log("Posición #2: " + this.planes[2].check);
-    }*/
     
 
     this.planes?.forEach((row: any, index) => {
-      console.log("Nombre: "+row.nombre+" : "+index);
-      console.log("Costo: "+row.costo+" : "+index);
-      console.log(row.check+" : "+index);
-      //return "aqui con "+row.name ? (row.check==true) : null;
-      //console.log(row.nombre.lastIndexOf('Cumpleaños'));//.lastIndexOf('Dodo'));
       if (row.check) { 
         this.totalPlanes += row.costo;
         console.log(this.totalPlanes+" : "+index);
       }
-      /*if (row.id == 1 && row.costo == 1000) {
-        console.log("Aqui la preboda cuesta: " + 1000);
-      }*/
-      console.log(this.totalPlanes);
-      return row.check ? (row.check) : null;
-      /*if (this.totalPlanes == 0) {
-        console.log("No hay ningún plan seleccionado");
-      }
-      else if (this.totalPlanes == 1000) {
-        console.log("Pre-Boda: " + 1000);
-      }
-      else if (this.totalPlanes == 1000) {
-        console.log("Pre-Boda: " + 1000);
-      }*/
+      
     })
   }
 
@@ -184,6 +156,8 @@ export class HomeComponent implements OnInit {
     rols: '',
     role: ''
   }
+
+  
 
   ngOnInit(): void {
     /*paypal
@@ -256,13 +230,9 @@ export class HomeComponent implements OnInit {
       onApprove: (data, actions) => {
         console.log('onApprove - transaction was approved, but not authorized', data, actions);
         actions.order.get().then((details: any) => {
-          console.log("Compra hecha por: " + this.userDisplayName);
-          /*console.log("Pre-Boda: " + this.pb);
-          console.log("Boda: " + this.b);
-          console.log("Cumpleaños: " + this.ca);
-          console.log("Vídeo de Evento: " + this.ve);*/
-          this.calcularTotal();
-          console.log("Total: "+this.totalPlanes);
+          // console.log("Compra hecha por: " + this.userDisplayName);
+          // console.log("Total: " + this.totalPlanes);
+          this.savePlan();
           // Poner la función y la ruta con Zuul para registrar la compra, y enviar el correo inmediatamente
           console.log('onApprove - you can get full order details inside onApprove: ', details)
         });
