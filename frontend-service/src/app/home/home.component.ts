@@ -86,21 +86,91 @@ export class HomeComponent implements OnInit {
   messages?: string;// | undefined;
   displayUser?: string;// | undefined;
   userDisplayName?: string | null;
+  selectedItemsList: any[] = [];
 
 
   calcularTotal() { 
     this.totalPlanes = 0;
-    this.planes?.forEach((row: any) => {
-      console.log("Nombre: "+row.nombre);
-      console.log("Costo: "+row.costo);
-      console.log(row.check);
-      console.log(row.nombre.lastIndexOf('Cumpleaños'));//.lastIndexOf('Dodo'));
+    /*if (this.pre) {
+      this.pb = 1000;
+    }
+    if (this.boda) {
+      this.b = 5000;
+    }
+    if (this.hbd) {
+      this.ca = 3000;
+    }
+    if (this.evento) {
+      this.ve = 4000;
+    }*/
+    
+    
+
+    //let i;
+    /*for (i = 0; i < this.planes?.length; i++) {
+
+    }*/
+
+    /*for (var _i = 0; _i < numbers.length; _i++) {
+      var num = numbers[_i];
+      console.log(num);
+    }*/
+    
+    /*let len: number = this.planes?.length!;
+    for (var i = 0; i < this.planes?.length!; i++) {
+      console.log("Klk con klk: "+this.planes?[i]/*this.selectedItemsList[i].id);
+    }*/
+
+    
+
+    /*this.planes?.forEach((element, index)=>{
+      console.log(element.nombre+" : "+element.costo+" : "+index); // Prints the index at which the loop is currently at
+      console.log(`${index}:${element.check}`);
+      console.log(this.planes?.find(check => check.check === true))
+
+    }); */
+
+    /*var m = this.planes?.find(check => check.check === true);
+    console.log(m)///*this.planes?.some(check => check === true)*)
+    console.log(this.planes?.find(check => check.check === true))*/
+    var ma = this.planes?.filter((x) => {return x.check === true})
+    console.log(ma)
+
+    /*var i = 0;
+    for (i = 0; this.planes?.length; i++) { 
+      console.log("Ver: "+this.planes[i].check);
+      //console.log("Posición #2: " + this.planes[2].check);
+    }*/
+    
+
+    this.planes?.forEach((row: any, index) => {
+      console.log("Nombre: "+row.nombre+" : "+index);
+      console.log("Costo: "+row.costo+" : "+index);
+      console.log(row.check+" : "+index);
+      //return "aqui con "+row.name ? (row.check==true) : null;
+      //console.log(row.nombre.lastIndexOf('Cumpleaños'));//.lastIndexOf('Dodo'));
       if (row.check) { 
-        this.totalPlanes += row.costo
+        this.totalPlanes += row.costo;
+        console.log(this.totalPlanes+" : "+index);
       }
+      /*if (row.id == 1 && row.costo == 1000) {
+        console.log("Aqui la preboda cuesta: " + 1000);
+      }*/
       console.log(this.totalPlanes);
+      return row.check ? (row.check) : null;
+      /*if (this.totalPlanes == 0) {
+        console.log("No hay ningún plan seleccionado");
+      }
+      else if (this.totalPlanes == 1000) {
+        console.log("Pre-Boda: " + 1000);
+      }
+      else if (this.totalPlanes == 1000) {
+        console.log("Pre-Boda: " + 1000);
+      }*/
     })
   }
+
+  
 
   receiveUsuario($event: any) {
     //this.messages = $event;

@@ -17,15 +17,22 @@
                         <!--<input #saveCheckBox id="saveCheckBox" 
                                 type="checkbox" [checked]="saveCheck" 
                                 (change)="saveCheckChanged(saveCheckBox.checked)"> {{ currentPlan.nombre }}: ${{ currentPlan.costo | number }}-->
-        
+                        
+                        <!--<input type="checkbox" [value]="currentPlan.costo" /> {{ currentPlan.nombre }}: ${{
+                                   currentPlan.costo | number }}-->
+
+
+
+                        
+                        
+
                         <input type="checkbox" [checked]="currentPlan.check" 
                         (change)=" currentPlan.check = !currentPlan.check ;calcularTotal()" /> {{ currentPlan.nombre }}: ${{
                         currentPlan.costo | number }}
 
 
         
-                        <!--<input type="checkbox" [value]="currentPlan.costo" /> {{ currentPlan.nombre }}: ${{
-                        currentPlan.costo | number }}-->
+                        
                         
                         
                         
