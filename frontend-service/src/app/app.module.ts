@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +19,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
 import { UsuariosComponent } from './usuarios/usuarios.component'
 import { ToastrModule } from 'ngx-toastr';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import {JwtInterceptor} from "./_services/jwt.interceptor";
 
 /*import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
@@ -52,7 +53,7 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";*/
     NativeScriptFormsModule,
     NativeScriptHttpModule*/
   ],
-  providers: [
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
   ],
   bootstrap: [AppComponent]

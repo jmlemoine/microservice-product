@@ -1,0 +1,40 @@
+version: '3.0'
+
+networks:
+  mi-red:
+
+services:
+
+  config-server:
+    build: .\config-serv
+    restart: always
+    environment:
+      - EUREKA-SERVER=eureka-server
+    ports:
+      - 8888:8888
+    networks:
+      - mi-red
+  eureka-server:
+    build: .\microservice-eureka
+    restart: always
+    environment:
+      - CONFIG-SERVER=config-server
+    ports:
+      - 8761:8761
+    networks:
+      - mi-red
+    depends_on:
+      - config-server
+  zulu-server:
+    build: .\microservice-zuul
+    restart: always
+    environment:
+      - CONFIG-SERVER=config-server
+      - EUREKA-SERVER=eureka-server
+    ports:
+      - 8765:8765
+    networks:
+      - mi-red
+    depends_on:
+      - eureka-server
+      - config-server

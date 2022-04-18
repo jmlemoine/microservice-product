@@ -22,13 +22,13 @@ public class MicroserviceZuulApplication {
         System.out.println("Klk Zuul");
     }
 
-    @Bean
+   /* @Bean
     //@Configuration
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping(/*"/**"*/"/*")
+                registry.addMapping(/*"/**"*//*"/*")
                         .allowedOrigins("*")
                         .allowedMethods("*")
                         //.maxAge(3600L)
@@ -37,7 +37,7 @@ public class MicroserviceZuulApplication {
                         .allowCredentials(true);
             }
         };
-    }
+    }*/
 
     /*@Bean
     public CorsFilter corsFilter() {
@@ -56,5 +56,23 @@ public class MicroserviceZuulApplication {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }*/
+   /* public CorsFilter corsFilter() {
+    config.setAllowCredentials(true);
+config.addAllowedOrigin("");
+config.addAllowedHeader("");
+config.addAllowedMethod("");
+source.registerCorsConfiguration("", config);*/
+
+    @Bean
+    public CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("");
+        config.addAllowedHeader("");
+        config.addAllowedMethod("");
+        source.registerCorsConfiguration("", config);
+        return new CorsFilter(source);
+    }
 
 }
